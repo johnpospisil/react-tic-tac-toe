@@ -3,20 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
-
-class Square extends React.Component {
-    // Sqare components are controlled by the Board ccomponent.
-    // When a Square is clicked, the onClick function provided by the Board is called.
-    render() {
-        return (
-            <button
-                className="square" 
-                onClick={() => this.props.onClick()}
-            >
-                {this.props.value}
-            </button>
-        );
-    }
+// This is a "function component"
+function Square(props) {
+    return (
+        <button className="square" onClick={props.onClick}>
+            {props.value}
+        </button>
+    );
 }
 
 class Board extends React.Component {
