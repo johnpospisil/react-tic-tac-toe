@@ -1,39 +1,51 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-// ReactDOM.render(<App />, document.getElementById('root'));
 
 class Square extends React.Component {
-    constructor(props) {
-        // In JavaScript classes, you need to always call super when defining the 
-        // constructor of a subclass. All React component classes that have a 
-        // constructor should start it with a 'super(props)' call.
-        super(props);
-        this.state = {
-            value: null,
-        }
-    }
+    // Sqare components are controlled by the Board ccomponent.
+    // When a Square is clicked, the onClick function provided by the Board is called.
     render() {
         return (
             <button
                 className="square" 
-                // onClick, setState of 'value' in this Square to 'X'
-                onClick={() => this.setState({value: 'X'})}
+                onClick={() => this.props.onClick()}
             >
-            {/* show the 'state' of the 'value' in each Square */}
-                {this.state.value}
+                {this.props.value}
             </button>
         );
     }
 }
 
 class Board extends React.Component {
+    // Board constructor - creates an array of 9 'value' props that represent 
+    // the contents of each tictactoe box. Now, the state of each Sqaure is stored
+    // in the Board componenet.
+    constructor(props) {
+        super(props);
+        this.state = {
+            squares: Array(9).fill(null),
+        };
+    }
+
+    handleClick(i) {
+        // 'slice()' creates a copy of the array each time a box is clicked.
+        // We will learn why this is done later.
+        const squares = this.state.squares.slice();
+        squares[i] = 'X';
+        this.setState({squares: squares});
+    }
+    
     renderSquare(i) {
-        // pass a prop(erty) called 'value' to Square
-        return <Square value={i} />;
+        // run the 'handleClick' function when a Square 'i' is clicked
+        return ( 
+            <Square 
+                value={this.state.squares[i]}
+                onClick={() => this.handleClick(i)} 
+            />
+        );
     }
 
     render() {
